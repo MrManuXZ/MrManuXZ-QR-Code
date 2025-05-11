@@ -1,21 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-6">
-  <title>Copiar texto</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copiar número de cuenta BAC</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+
+      user-select: none;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .text-box {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 2px solid #555;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+      background-color: #f9f9f9;
+      text-align: center;
+      pointer-events: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      margin-top: 1rem;
+      color: #008000;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
-<body style="text-align: center; margin-top: 100px;">
-  <h2>Cuenta BAC:</h2>
-  <textarea id="texto" rows="4" cols="50" readonly>748514941</textarea><br><br>
-  <button onclick="copiarTexto()">Copiar al portapapeles</button>
+<body oncontextmenu="return false;">
+  <div class="container">
+    <h1>Copiar número de cuenta BAC 📋</h1>
+    <div id="text" class="text-box">748514941</div>
+    <button onclick="copyText()">Copiar</button>
+    <div class="message" id="message"></div>
+  </div>
 
   <script>
-    function copiarTexto() {
-      const texto = document.getElementById("texto");
-      texto.select();
-      texto.setSelectionRange(0, 99999); // Para móviles
-      document.execCommand("copy");
-      alert("Texto copiado al portapapeles");
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    function copyText() {
+      const text = document.getElementById('text').textContent;
+      const message = document.getElementById('message');
+
+      if (text.trim() === "") {
+        message.textContent = "No hay texto para copiar.";
+        return;
+      }
+
+      navigator.clipboard.writeText(text).then(() => {
+        message.textContent = "¡Texto copiado al portapapeles!";
+      }).catch(() => {
+        message.textContent = "Hubo un error al copiar el texto.";
+      });
     }
   </script>
 </body>
